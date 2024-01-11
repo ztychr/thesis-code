@@ -28,3 +28,12 @@ flask run
 cd utils/
 python read_db.py ../server/db.db
 ```
+
+
+## Run as Service
+```bash
+cp thesis-code.service /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable thesis-code.service
+systemctl start thesis-code.service
+```
