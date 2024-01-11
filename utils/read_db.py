@@ -1,5 +1,6 @@
 import json
 import sqlite3
+import sys
 
 
 def print_database_contents(database_path):
@@ -23,5 +24,5 @@ def print_database_contents(database_path):
         connection.close()
 
 
-database_path = "db.db"
+database_path = sys.argv[1]
 print_database_contents(database_path)
