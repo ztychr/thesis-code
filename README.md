@@ -1,5 +1,6 @@
 # thesis-code
 
+Repository for master thesis.
 
 ## Setup
 ```bash
@@ -20,4 +21,10 @@ python gen_files.py <path>
 ```bash
 cd server/
 flask run
+```
+
+## Print Results
+```bash
+cd utils/
+python read_db.py ../server/db.db
 ```
