@@ -14,7 +14,7 @@ cp .env.example .env
 ## Generate Files
 ```bash
 cd utils
-python gen_files.py <path>
+python gen_files.py <usb|qr> <path>
 ```
 
 ## Run Server
