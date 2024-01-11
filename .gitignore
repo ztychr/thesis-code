@@ -1,0 +1,11 @@
+venv
+*~
+__pycache__
+tokens.json
+flashdrive
+output
+data/*
+*.bak
+*new-batch/
+*new-order/
+.env
