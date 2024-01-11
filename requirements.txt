@@ -16,6 +16,3 @@ zipp==3.16.2
 gunicorn
 Flask_Limiter
 PyJWT==2.8.0
-python-dotenv
-SQLAlchemy
-pre-commit

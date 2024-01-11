@@ -6,8 +6,11 @@ from io import BytesIO
 from pathlib import Path
 from zipfile import ZipFile
 
-from lib.ziplib import (MODE_DIRECTORY, format_time_for_doc,
-                        zipinfo_contents_replace)
+from lib.ziplib import (
+    MODE_DIRECTORY,
+    format_time_for_doc,
+    zipinfo_contents_replace,
+)
 
 
 def make_canary_msexcel(url: str, template: Path):

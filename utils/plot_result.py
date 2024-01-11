@@ -1,10 +1,7 @@
-import json
-import math
-import sys
-from datetime import datetime, timedelta
-
-import matplotlib.dates as mdates
+import sys, json, math
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+from datetime import datetime, timedelta
 
 file_path = sys.argv[1]
 group = sys.argv[1].split(".")[0]

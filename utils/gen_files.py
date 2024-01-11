@@ -1,31 +1,21 @@
-import os
-import random
-import sys
-from random import choice
-from string import ascii_lowercase, ascii_uppercase
-
-import jwt
-from dotenv import load_dotenv
-from lib.msexcel import make_canary_msexcel
 from lib.msword import make_canary_msword
+from lib.msexcel import make_canary_msexcel
+from random import choice
+from string import ascii_uppercase, ascii_lowercase
+from datetime import datetime
+import urllib.parse, os, sys, random, json
 
-load_dotenv()
 
-JWT_SECRET = os.getenv("JWT_SECRET")
-
-# LANG="EN"
+#LANG="EN"
 LANG = "DA"
 
-# base_url = "https://pid.dk/?t=" if LANG == "DA" else "https://pid.dk/en/?t="
-base_url = (
-    "http://127.0.0.1:5000/?t=" if LANG == "DA" else "http://127.0.0.1:5000/en/?t="
-)
+base_url = "https://pid.dk/?" if LANG == "DA" else "https://pid.dk/en/?"
+#base_url = "http://127.0.0.1:5000/?" if LANG == "DA" else "http://127.0.0.1:5000/en/?"# base_url = ''
 
-typex = "single"
-# typex="multi"
-
+typex="single"
+#typex="multi"
 data = {"ufm": 1}
-qr = {"ufm": 5}
+#qr = {"boeing0": 5}
 
 
 layout = {
@@ -75,25 +65,33 @@ def gen_usb_files(data, layout, base_url):
                 for filex in layout[folder]:
                     file_type = filex.rsplit(".", 1)[-1]
                     if file_type == "jpg":
+                        params["src"] = "html"
                         params["filename"] = filex
-                        token = jwt.encode(params, JWT_SECRET, algorithm="HS256")
-                        url = base_url + token
+                        url = base_url + urllib.parse.urlencode(params)
                         make_html(filex, folder, url)
+                        register_entry_usb(params)
                     elif file_type == "docx":
+                        params["src"] = "docx"
                         params["filename"] = filex
-                        token = jwt.encode(params, JWT_SECRET, algorithm="HS256")
-                        url = base_url + token
+                        url = base_url + urllib.parse.urlencode(params).replace(
+                            "&", "&amp;"
+                        )
                         make_docx(filex, folder, url)
+                        register_entry_usb(params)
                     elif file_type == "xlsx":
+                        params["src"] = "xlxs"
                         params["filename"] = filex
-                        token = jwt.encode(params, JWT_SECRET, algorithm="HS256")
-                        url = base_url + token
+                        url = base_url + urllib.parse.urlencode(params).replace(
+                            "&", "&amp;"
+                        )
+                        register_entry_usb(params)
                         make_xlsx(filex, folder, url)
                     elif file_type == "pdf":
+                        params["src"] = "pdf"
                         params["filename"] = filex
-                        token = jwt.encode(params, JWT_SECRET, algorithm="HS256")
-                        url = base_url + token
+                        url = base_url + urllib.parse.urlencode(params)
                         make_html(filex, folder, url)
+                        register_entry_usb(params)
                     print("File", url)
 
 
@@ -101,9 +99,9 @@ def gen_qr_links(qr, baseurl):
     for group in qr:
         for i in range(qr[group]):
             idx = "".join(choice(ascii_uppercase + ascii_lowercase) for i in range(12))
-            params = {"group": group, "id": idx, "filename": "qr"}
-            token = jwt.encode(params, JWT_SECRET, algorithm="HS256")
-            url = base_url + token
+            params = {"group": group, "id": idx, "src": "qr"}
+            url = base_url + urllib.parse.urlencode(params)
+            register_entry_qr(params)
             print("QR", url)
 
 
@@ -146,6 +144,48 @@ def make_xlsx(file_name, folder, url):
     os.utime(f.name, (time, time))
 
 
+def register_entry_usb(params):
+    if not os.path.exists("../data/entries"):  # and not folder == "Root":
+        os.makedirs("../data/entries")
+    file_path = "../data/entries/%s.usb.json" % params["group"]
+
+    try:
+        with open(file_path, "r") as file:
+            existing_data = json.load(file)
+    except FileNotFoundError:
+        existing_data = {}
+
+    entry_id = params["id"]
+    if entry_id in existing_data:
+        existing_data[entry_id].append(params)
+    else:
+        existing_data[entry_id] = [params]
+
+    with open(file_path, "w") as file:
+        json.dump(existing_data, file, indent=4)
+
+
+def register_entry_qr(params):
+    if not os.path.exists("../data/entries"):  # and not folder == "Root":
+        os.makedirs("../data/entries")
+    file_path = "../data/entries/%s.qr.json" % params["group"]
+
+    try:
+        with open(file_path, "r") as file:
+            existing_data = json.load(file)
+    except FileNotFoundError:
+        existing_data = {}
+
+    entry_id = params["id"]
+    if entry_id in existing_data:
+        existing_data[entry_id].append(params)
+    else:
+        existing_data[entry_id] = [params]
+
+    with open(file_path, "w") as file:
+        json.dump(existing_data, file, indent=4)
+
+
 def gen_time(sync: bool):
     time = 1687793905 if sync else random.randint(1682942400, 1699876800)
     return time
@@ -153,4 +193,4 @@ def gen_time(sync: bool):
 
 if __name__ == "__main__":
     gen_usb_files(data, layout, base_url)
-    gen_qr_links(qr, base_url)
+    #gen_qr_links(qr, base_url)
