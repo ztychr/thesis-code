@@ -13,20 +13,17 @@ load_dotenv()
 
 JWT_SECRET = os.getenv("JWT_SECRET")
 
-# LANG="EN"
-LANG = "DA"
+LANG = "DA" # or "EN"
 
 # base_url = "https://pid.dk/?t=" if LANG == "DA" else "https://pid.dk/en/?t="
 base_url = (
     "http://127.0.0.1:5000/?t=" if LANG == "DA" else "http://127.0.0.1:5000/en/?t="
 )
 
-typex = "single"
-# typex="multi"
+typex = "single" # or "multi"
 
-data = {"ufm": 1}
-qr = {"ufm": 5}
-
+data = {"group_name": 1}
+qr = {"group_name": 1}
 
 layout = {
     "Sommer 2023": [
@@ -54,8 +51,8 @@ layout = {
     ],
 }
 
-if len(sys.argv) > 1:
-    PATH = sys.argv[1]
+if len(sys.argv) > 2:
+    PATH = sys.argv[2]
 else:
     PATH = "output"
 
@@ -94,7 +91,7 @@ def gen_usb_files(data, layout, base_url):
                         token = jwt.encode(params, JWT_SECRET, algorithm="HS256")
                         url = base_url + token
                         make_html(filex, folder, url)
-                    print("File", url)
+                    print(params["filename"], "\n", url)
 
 
 def gen_qr_links(qr, baseurl):
@@ -104,7 +101,7 @@ def gen_qr_links(qr, baseurl):
             params = {"group": group, "id": idx, "filename": "qr"}
             token = jwt.encode(params, JWT_SECRET, algorithm="HS256")
             url = base_url + token
-            print("QR", url)
+            print("QR\n", url)
 
 
 def make_html(file_name, folder, url):
@@ -152,5 +149,12 @@ def gen_time(sync: bool):
 
 
 if __name__ == "__main__":
-    gen_usb_files(data, layout, base_url)
-    gen_qr_links(qr, base_url)
+    if len(sys.argv) < 2:
+        print("Usage: gen-files.py <usb|qr> <path>")
+        sys.exit(0)
+    if sys.argv[1] == "usb":
+        gen_usb_files(data, layout, base_url)
+    elif sys.argv[1] == "qr":
+        gen_qr_links(qr, base_url)
+    else:
+        print("Usage: gen-files.py <usb|qr> <path>")
