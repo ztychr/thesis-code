@@ -81,6 +81,5 @@ def process_request(request):
         session.close()
         print(jsonify({"message": "JSON data inserted successfully"}))
     except Exception as e:
-        print(e)
         print(jsonify({"error": str(e)}))
         abort(401)
