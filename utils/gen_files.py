@@ -16,9 +16,9 @@ JWT_SECRET = os.getenv("JWT_SECRET")
 LANG = "EN"  # or "EN"
 
 base_url = "https://pid.dk/?t=" if LANG == "DA" else "https://pid.dk/en/?t="
-#base_url = (
+# base_url = (
 #    "http://127.0.0.1:5000/?t=" if LANG == "DA" else "http://127.0.0.1:5000/en/?t="
-#)
+# )
 
 typex = "single"  # or "multi"
 
@@ -66,8 +66,6 @@ def gen_usb_files(data, layout, base_url):
             for folder in layout:
                 if not os.path.exists("%s/%s" % (PATH, folder)):
                     os.makedirs("%s/%s" % (PATH, folder))
-                    time = gen_time(sync=False)
-                    os.utime("%s/%s" % (PATH, folder), (time, time))
 
                 for filex in layout[folder]:
                     file_type = filex.rsplit(".", 1)[-1]
@@ -92,6 +90,8 @@ def gen_usb_files(data, layout, base_url):
                         url = base_url + token
                         make_html(filex, folder, url)
                     print(params["filename"], "\n", url)
+                time = gen_time(sync=False)
+                os.utime("%s/%s" % (PATH, folder), (time, time))
 
 
 def gen_qr_links(qr, baseurl):
