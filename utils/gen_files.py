@@ -13,17 +13,17 @@ load_dotenv()
 
 JWT_SECRET = os.getenv("JWT_SECRET")
 
-LANG = "DA"  # or "EN"
+LANG = "EN"  # or "EN"
 
-# base_url = "https://pid.dk/?t=" if LANG == "DA" else "https://pid.dk/en/?t="
-base_url = (
-    "http://127.0.0.1:5000/?t=" if LANG == "DA" else "http://127.0.0.1:5000/en/?t="
-)
+base_url = "https://pid.dk/?t=" if LANG == "DA" else "https://pid.dk/en/?t="
+#base_url = (
+#    "http://127.0.0.1:5000/?t=" if LANG == "DA" else "http://127.0.0.1:5000/en/?t="
+#)
 
 typex = "single"  # or "multi"
 
 data = {"group_name": 1}
-qr = {"group_name": 1}
+qr = {"TEST": 1}
 
 layout = {
     "Sommer 2023": [
