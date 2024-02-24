@@ -25,7 +25,7 @@ def default_error_responder(request_limit: RequestLimit):
 limiter = Limiter(
     get_remote_address,
     app=app,
-    default_limits=["5 per hour"],
+    default_limits=["5 per minute"],
     storage_uri="memory://",
     on_breach=default_error_responder,
 )
@@ -38,9 +38,21 @@ def index():
 
 
 @app.route("/en/", methods=["GET"])
-def index_da():
+def index_en():
     process_request(request)
     return render_template("index.html")
+
+
+@app.route("/doc/", methods=["GET"])
+def index_doc():
+    process_request(request)
+    return render_template("index.da.usb.html")
+
+
+@app.route("/doc/en/", methods=["GET"])
+def index_doc_en():
+    process_request(request)
+    return render_template("index.usb.html")
 
 
 def process_request(request):
@@ -61,7 +73,7 @@ def process_request(request):
     data = {
         "group": token["group"],
         "id": token["id"],
-        "filename": token["filename"] if "filename" in token else "",
+        "filename": token["filename"] if "filename" in token else None,
         "data": {
             "date": str(date),
             "timestamp": str(timestamp),
@@ -73,6 +85,8 @@ def process_request(request):
     del info["query"]
     data["whois"] = info
 
+    print(json.dumps(data, indent=4))
+    
     try:
         session = create_session(engine)
         json_data_obj = JsonData(entry=data)
