@@ -74,6 +74,8 @@ def process_request(request):
         "group": token["group"],
         "id": token["id"],
         "filename": token["filename"] if "filename" in token else None,
+        "typex": token["type"] if "type" in token else None,
+        "loc": token["loc"] if "loc" in token else None,
         "data": {
             "date": str(date),
             "timestamp": str(timestamp),

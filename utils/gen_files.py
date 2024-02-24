@@ -15,15 +15,24 @@ JWT_SECRET = os.getenv("JWT_SECRET")
 
 LANG = "EN"  # or "EN"
 
-base_url = "https://pid.dk/?t=" if LANG == "DA" else "https://pid.dk/en/?t="
-# base_url = (
-#    "http://127.0.0.1:5000/?t=" if LANG == "DA" else "http://127.0.0.1:5000/en/?t="
-# )
+#base_url = "https://pid.dk/?t=" if LANG == "DA" else "https://pid.dk/en/?t="
+#base_url = "http://127.0.0.1:5000/?t=" if LANG == "DA" else "http://127.0.0.1:5000/en/?t="
+#base_url = "https://pid.dk/doc/?t=" if LANG == "DA" else "https://pid.dk/doc/en/?t="
+base_url = "http://127.0.0.1:5000/doc/?t=" if LANG == "DA" else "http://127.0.0.1:5000/doc/en/?t="
 
-typex = "single"  # or "multi"
 
-data = {"group_name": 1}
+#typex = "single"
+typex = "hybrid"
+#typex = "multi"
+
+
+#loc = "in"
+loc = "out"
+
+
+data = {"dtu": 1}
 qr = {"TEST": 1}
+
 
 layout = {
     "Sommer 2023": [
@@ -61,7 +70,7 @@ def gen_usb_files(data, layout, base_url):
     for group in data:
         for i in range(data[group]):
             idx = "".join(choice(ascii_uppercase + ascii_lowercase) for i in range(12))
-            params = {"group": group, "id": idx, "type": typex}
+            params = {"group": group, "id": idx, "type": typex, "loc": loc}
 
             for folder in layout:
                 if not os.path.exists("%s/%s" % (PATH, folder)):
