@@ -33,9 +33,8 @@ loc = "out"
 data = {"dtu": 1}
 qr = {"TEST": 1}
 
-
 layout = {
-    "Sommer 2023": [
+    "Summer 2023": [
         "IMG_2622.jpg",
         "IMG_2623.jpg",
         "IMG_2624.jpg",
@@ -47,18 +46,17 @@ layout = {
         "IMG_2630.jpg",
         "IMG_2631.jpg",
     ],
-    "Vigtige Dokumenter": [
-        "Mødenoter.docx",
-        "Udkast-til-lønsammensætning.docx",
-        "Ansættelsesbrev.docx",
+    "Important Documents": [
+        "Meeting-notes.docx",
+        "Salary-draft.docx",
+        "Letter-of-appointment.docx",
         "Budget.xlsx",
-        "Afdrag-2024.xlsx",
-        "CV.docx",
-        "GF-referat.docx",
-        "AB-nøgletal.xlsx",
-        "MUS-forberedelse.docx",
+        "Instalment-2024.xlsx",
+        "Resume.docx",
+        "Appraisal-preparation.docx",
     ],
 }
+
 
 if len(sys.argv) > 2:
     PATH = sys.argv[2]
