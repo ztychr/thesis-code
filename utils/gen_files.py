@@ -17,8 +17,8 @@ LANG = "EN"  # or "EN"
 
 #base_url = "https://pid.dk/?t=" if LANG == "DA" else "https://pid.dk/en/?t="
 #base_url = "http://127.0.0.1:5000/?t=" if LANG == "DA" else "http://127.0.0.1:5000/en/?t="
-#base_url = "https://pid.dk/doc/?t=" if LANG == "DA" else "https://pid.dk/doc/en/?t="
-base_url = "http://127.0.0.1:5000/doc/?t=" if LANG == "DA" else "http://127.0.0.1:5000/doc/en/?t="
+base_url = "https://pid.dk/doc/?t=" if LANG == "DA" else "https://pid.dk/doc/en/?t="
+#base_url = "http://127.0.0.1:5000/doc/?t=" if LANG == "DA" else "http://127.0.0.1:5000/doc/en/?t="
 
 
 #typex = "single"
@@ -30,7 +30,7 @@ typex = "hybrid"
 loc = "out"
 
 
-data = {"dtu": 1}
+data = {"TEST": 1}
 qr = {"TEST": 1}
 
 layout = {
