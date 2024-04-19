@@ -16,8 +16,8 @@ LANG = "EN"  # or "DA"
 base_url = "https://pid.dk/doc/?t=" if LANG == "DA" else "https://pid.dk/doc/en/?t="
 typex = "single" # or typex = "hybrid" or typex = "multi"
 loc = "in" # or loc = "out"
-data = {"TEST": 1}
-qr = {"TEST": 1}
+data = {"dtu": 1}
+qr = {"dtu": 1}
 
 layout = {
     "Summer 2023": [
