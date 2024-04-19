@@ -10,26 +10,12 @@ from lib.msexcel import make_canary_msexcel
 from lib.msword import make_canary_msword
 
 load_dotenv()
-
 JWT_SECRET = os.getenv("JWT_SECRET")
 
-LANG = "EN"  # or "EN"
-
-#base_url = "https://pid.dk/?t=" if LANG == "DA" else "https://pid.dk/en/?t="
-#base_url = "http://127.0.0.1:5000/?t=" if LANG == "DA" else "http://127.0.0.1:5000/en/?t="
+LANG = "EN"  # or "DA"
 base_url = "https://pid.dk/doc/?t=" if LANG == "DA" else "https://pid.dk/doc/en/?t="
-#base_url = "http://127.0.0.1:5000/doc/?t=" if LANG == "DA" else "http://127.0.0.1:5000/doc/en/?t="
-
-
-#typex = "single"
-typex = "hybrid"
-#typex = "multi"
-
-
-#loc = "in"
-loc = "out"
-
-
+typex = "single" # or typex = "hybrid" or typex = "multi"
+loc = "in" # or loc = "out"
 data = {"TEST": 1}
 qr = {"TEST": 1}
 
