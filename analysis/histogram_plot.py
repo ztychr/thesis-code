@@ -4,6 +4,7 @@ import sys
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 from matplotlib.dates import DayLocator, DateFormatter, HourLocator, AutoDateLocator
+import matplotlib.ticker as ticker
 
 connection = sqlite3.connect(sys.argv[1])
 cursor = connection.cursor()
@@ -52,18 +53,19 @@ try:
     #plt.xticks(ticks, [tick.strftime('%Y-%m-%d') for tick in ticks])
 
 
-    plt.ylim(0, 10)
+    #plt.ylim(0, 4)
     
     plt.xlabel('Date')
     plt.ylabel('Frequency')
-    plt.title('TS Skanderborg: Histogram of Timestamps')
+    plt.title('UFM: Histogram of Timestamps')
     plt.xticks(rotation=45, ha='right')  # Rotate labels and align to the right
     plt.subplots_adjust(bottom=0.2)  # Increase space at the bottom for labels
 
 
 #    plt.gca().xaxis.set_major_locator(HourLocator(byhour=range(0, 24, 8)))
 #    plt.gca().xaxis.set_major_formatter(DateFormatter('%m-%d %H:%M'))  # Format as year-month-day hour:minute
-    
+
+    plt.gca().yaxis.set_major_locator(ticker.MultipleLocator(base=1))
     # Set the locator and formatter for x-axis
     plt.gca().xaxis.set_major_locator(AutoDateLocator())
     
